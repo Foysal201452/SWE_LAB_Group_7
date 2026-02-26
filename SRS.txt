@@ -1,0 +1,293 @@
+Software Requirements Specification (SRS)
+
+Hospital Patient–Doctor Management System
+--------------------------------------------------
+1. Introduction
+----------------------------
+1.1 Purpose
+--------------------------
+This document describes the requirements for the Hospital Patient–Doctor Management System (HPDMS).
+
+The purpose of this system is to:
+
+Manage patient appointments efficiently
+
+Store digital health records
+
+Maintain a centralized medical record database
+
+Enable doctor reviews and suggestions
+
+The system aims to improve hospital efficiency, reduce paperwork, and ensure secure handling of patient data.
+
+1.2 Intended Audience
+-----------------------------------
+This SRS document is intended for:
+
+Software Developers
+
+UI/UX Designers
+
+Quality Assurance (QA) Team
+
+Project Managers
+
+Hospital Management
+
+System Administrators
+
+They will use this document for development, testing, deployment, and maintenance.
+
+1.3 Intended Use
+------------------------------------
+The system will be used by:
+
+Patients
+
+Doctors
+
+Receptionists
+
+Administrators
+
+It will be a web-based system accessible through computers and mobile devices.
+
+1.4 Product Scope
+------------------------------------
+The Hospital Patient–Doctor Management System will:
+
+Automate appointment scheduling
+
+Store and manage patient health records digitally
+
+Maintain a complete medical history database
+
+Allow doctors to review cases and provide suggestions
+
+Objectives
+
+Reduce patient waiting time
+
+Replace manual record keeping
+
+Improve communication between doctors and patients
+
+Increase hospital operational efficiency
+
+1.5 Risk Definitions
+--------------------------------------
+Possible risks include:
+
+Data Breach – Unauthorized access to patient data.
+
+System Downtime – Server failure affecting hospital operations.
+
+Incorrect Data Entry – Human errors while entering patient data.
+
+Unauthorized Access – Access without proper permission.
+
+Mitigation strategies include encryption, authentication, regular backups, and role-based access control.
+
+2. Overall Description
+2.1 User Classes and Characteristics
+---------------------------------------------------
+Patient
+
+Books appointments
+
+Views prescriptions and reports
+
+Basic technical knowledge
+
+Doctor
+
+Reviews patient history
+
+Updates medical records
+
+Provides prescriptions and suggestions
+
+Moderate technical knowledge
+
+Receptionist
+
+Manages appointments
+
+Registers new patients
+
+Moderate technical knowledge
+
+Administrator
+
+Manages users and system settings
+
+Generates reports
+
+Advanced technical knowledge
+
+2.2 User Needs
+------------------------------
+Patients need:
+
+Easy appointment booking
+
+Access to prescriptions and reports
+
+Notifications and reminders
+
+Doctors need:
+
+Quick access to patient history
+
+Ability to update medical records
+
+Secure system access
+
+Administrators need:
+
+User management
+
+System monitoring
+
+Backup and reporting tools
+
+2.3 Operating Environment
+-------------------------------------------
+Web Browser (Chrome, Firefox, Edge)
+
+Windows, Linux, or macOS
+
+Cloud-based server
+
+Database system (MySQL or PostgreSQL)
+
+2.4 Constraints
+---------------------------------------------------------
+Must follow healthcare data privacy regulations
+
+Requires internet connection
+
+Limited by hospital hardware infrastructure
+
+Budget and time constraints
+
+2.5 Assumptions
+-------------------------------------
+Users have basic computer knowledge
+
+Internet connection is available
+
+Hospital provides proper staff training
+
+Cloud service ensures high availability
+
+3. Requirements
+3.1 Functional Requirements
+3.1.1 Smart Appointment System
+---------------------------------------------------------
+User Story 1: Book Appointment
+As a Patient, I want to book an appointment with a doctor so that I can receive medical consultation.
+
+Confirmation Criteria:
+
+Patient selects doctor
+
+Patient selects available time slot
+
+System confirms booking
+
+Notification is sent
+
+User Story 2: Manage Appointment
+As a Receptionist, I want to modify or cancel appointments so that scheduling conflicts can be resolved.
+
+Confirmation Criteria:
+
+Receptionist can edit date and time
+
+System updates calendar
+
+Patient receives notification
+
+3.1.2 Digital Health Record
+---------------------------------------------
+User Story 3: View Medical History
+As a Doctor, I want to access patient medical history so that I can provide accurate treatment.
+
+Confirmation Criteria:
+
+Doctor logs in
+
+Searches patient by ID
+
+Full medical history displayed
+
+Records are securely stored
+
+3.1.3 Medical Record Database
+-------------------------------------------
+User Story 4: Store Records
+As a System, I want to securely store patient records so that data remains safe and accessible.
+
+Confirmation Criteria:
+
+Data is encrypted
+
+Backup created daily
+
+Access limited based on role
+
+3.1.4 Doctor Review & Suggestion
+--------------------------------------------------------
+User Story 5: Provide Suggestion
+As a Doctor, I want to give medical suggestions and prescriptions so that patients receive proper guidance.
+
+Confirmation Criteria:
+
+Doctor enters prescription
+
+System stores suggestion
+
+Patient can view suggestion
+
+3.2 Non-Functional Requirements
+
+Performance
+
+System response time less than 3 seconds
+
+Supports at least 500 concurrent users
+
+Security
+
+Two-factor authentication
+
+Role-based access control
+
+Data encryption
+
+Reliability
+
+99% system uptime
+
+Automatic backup and recovery
+
+Usability
+
+Simple and user-friendly interface
+
+Mobile responsive design
+
+Maintainability
+
+Modular system design
+
+Proper documentation
+
+Easy bug fixing and updates
+
+Conclusion
+
+This SRS document clearly defines the structure, functionality, and constraints of the Hospital Patient–Doctor Management System.
+
+It ensures clear communication between teams, reduces development errors, and helps deliver a secure and efficient system.
