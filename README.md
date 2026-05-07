@@ -1,4 +1,4 @@
-# HealNest
+# Healthiva
 Hospital Patient-Doctor Management 
 
 Features:
