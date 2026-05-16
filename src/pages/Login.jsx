@@ -81,25 +81,6 @@ function Login() {
     });
   };
 
-  const handleRoleLogin = (e) => {
-    e.preventDefault();
-
-    const account = demoAccounts[activeLogin];
-
-    const enteredId = loginData.userId.trim();
-    const enteredPassword = loginData.password.trim();
-
-    if (enteredId === account.id && enteredPassword === account.password) {
-      localStorage.setItem("role", activeLogin);
-      localStorage.setItem(account.storageKey, enteredId);
-      navigate(account.route);
-    } else {
-      alert(
-        `Invalid ${account.label} ID or password. Try ${account.id} and ${account.password}`
-      );
-    }
-  };
-
   const handleAccountChange = (e) => {
     setAccountData({
       ...accountData,
@@ -107,29 +88,107 @@ function Login() {
     });
   };
 
+  const handleRoleLogin = (e) => {
+    e.preventDefault();
+
+    if (!activeLogin) {
+      alert("Please select a role first.");
+      return;
+    }
+
+    const account = demoAccounts[activeLogin];
+
+    const enteredId = loginData.userId.trim();
+    const enteredPassword = loginData.password.trim();
+
+    if (activeLogin === "patient") {
+      const createdAccounts =
+        JSON.parse(localStorage.getItem("created_patient_accounts")) || [];
+
+      const foundPatient = createdAccounts.find(
+        (patient) =>
+          patient.patient_id === enteredId &&
+          patient.password === enteredPassword
+      );
+
+      if (foundPatient) {
+        localStorage.setItem("role", "patient");
+        localStorage.setItem("patient_id", foundPatient.patient_id);
+        localStorage.setItem("patient_name", foundPatient.name);
+        navigate("/patient/dashboard");
+        return;
+      }
+    }
+
+    if (enteredId === account.id && enteredPassword === account.password) {
+      localStorage.setItem("role", activeLogin);
+      localStorage.setItem(account.storageKey, enteredId);
+
+      if (activeLogin === "patient") {
+        localStorage.setItem("patient_name", account.id);
+      }
+
+      navigate(account.route);
+      return;
+    }
+
+    alert(
+      `Invalid ${account.label} ID or password. Try ${account.id} and ${account.password}`
+    );
+  };
+
   const handleCreateAccount = (e) => {
     e.preventDefault();
 
+    const patientName = accountData.name.trim();
+    const patientPassword = accountData.password.trim();
+
+    if (!patientName) {
+      alert("Please enter full name.");
+      return;
+    }
+
+    if (!patientPassword) {
+      alert("Please create a password.");
+      return;
+    }
+
     const newPatientAccount = {
-      patient_id: accountData.name || "New Patient",
-      ...accountData,
+      patient_id: patientName,
+      name: patientName,
+      dob: accountData.dob,
+      gender: accountData.gender,
+      phone: accountData.phone,
+      email: accountData.email,
+      address: accountData.address,
+      password: patientPassword,
       created_at: new Date().toLocaleString(),
     };
 
     const oldAccounts =
       JSON.parse(localStorage.getItem("created_patient_accounts")) || [];
 
+    const alreadyExists = oldAccounts.some(
+      (patient) =>
+        patient.patient_id.toLowerCase() ===
+        newPatientAccount.patient_id.toLowerCase()
+    );
+
+    if (alreadyExists) {
+      alert("This patient account already exists. Please login instead.");
+      return;
+    }
+
+    const updatedAccounts = [newPatientAccount, ...oldAccounts];
+
     localStorage.setItem(
       "created_patient_accounts",
-      JSON.stringify([newPatientAccount, ...oldAccounts])
+      JSON.stringify(updatedAccounts)
     );
 
     alert(
-      `Account created successfully!\nYour Patient ID is: ${newPatientAccount.patient_id}\nUse your password to login.`
+      `Patient account created successfully!\n\nPatient ID: ${newPatientAccount.patient_id}\nPassword: ${newPatientAccount.password}\n\nNow login using this ID and password.`
     );
-
-    setShowCreateAccount(false);
-    setActiveLogin("patient");
 
     setAccountData({
       name: "",
@@ -138,6 +197,13 @@ function Login() {
       phone: "",
       email: "",
       address: "",
+      password: "",
+    });
+
+    setShowCreateAccount(false);
+    setActiveLogin("patient");
+    setLoginData({
+      userId: newPatientAccount.patient_id,
       password: "",
     });
   };
@@ -164,36 +230,55 @@ function Login() {
         <span className="login-front-star login-front-star-three">✦</span>
       </div>
 
-      <div className="login-card auth-card login-card-right">
+      <div
+        className={
+          showCreateAccount
+            ? "login-card auth-card login-card-right create-patient-card"
+            : "login-card auth-card login-card-right"
+        }
+      >
         <h1 className="login-main-title">
           health<span>iva.</span>
         </h1>
 
         {!activeLogin && !showCreateAccount && (
           <>
-            <button className="login-button" onClick={() => openLogin("patient")}>
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => openLogin("patient")}
+            >
               Login as Patient
             </button>
 
-            <button className="login-button" onClick={() => openLogin("doctor")}>
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => openLogin("doctor")}
+            >
               Login as Doctor
             </button>
 
             <button
+              type="button"
               className="login-button"
               onClick={() => openLogin("receptionist")}
             >
               Login as Receptionist
             </button>
 
-            <button className="login-button" onClick={() => openLogin("admin")}>
+            <button
+              type="button"
+              className="login-button"
+              onClick={() => openLogin("admin")}
+            >
               Login as Admin
             </button>
           </>
         )}
 
         {activeLogin && !showCreateAccount && (
-          <form className="patient-auth-form" onSubmit={handleRoleLogin}>
+          <form className="patient-auth-form login-form-fixed" onSubmit={handleRoleLogin}>
             <h2 className="auth-title">{getLoginTitle()}</h2>
 
             <p className="auth-subtitle">
@@ -236,6 +321,10 @@ function Login() {
                 onClick={() => {
                   setShowCreateAccount(true);
                   setActiveLogin("");
+                  setLoginData({
+                    userId: "",
+                    password: "",
+                  });
                 }}
               >
                 Create New Patient Account
@@ -250,10 +339,10 @@ function Login() {
               Back to Role Selection
             </button>
 
-            <p className="demo-login-text">
+            <div className="demo-login-box">
               Demo: <strong>{demoAccounts[activeLogin].id}</strong> /{" "}
               <strong>{demoAccounts[activeLogin].password}</strong>
-            </p>
+            </div>
           </form>
         )}
 
@@ -353,7 +442,7 @@ function Login() {
               ></textarea>
             </div>
 
-            <button type="submit" className="login-button">
+            <button type="submit" className="login-button create-account-submit">
               Create Account
             </button>
 
@@ -363,9 +452,21 @@ function Login() {
               onClick={() => {
                 setShowCreateAccount(false);
                 setActiveLogin("patient");
+                setLoginData({
+                  userId: "",
+                  password: "",
+                });
               }}
             >
               Already have an account? Login
+            </button>
+
+            <button
+              type="button"
+              className="auth-back-button"
+              onClick={resetScreens}
+            >
+              Back to Role Selection
             </button>
           </form>
         )}
