@@ -43,7 +43,7 @@ function PatientDashboard() {
               </Link>
             </div>
 
-            <div className="patient-card featured">
+            <div className="patient-card">
               <div className="patient-card-icon">📞</div>
               <h3>My Appointments</h3>
               <p>
@@ -142,16 +142,16 @@ function PatientDashboard() {
             </div>
           </div>
 
-         <div className="workflow-art">
-  <span className="workflow-icon workflow-light">💡</span>
-  <span className="workflow-icon workflow-gear-one">⚙️</span>
-  <span className="workflow-icon workflow-gear-two">⚙️</span>
-  <span className="workflow-icon workflow-check">✓</span>
-  <span className="workflow-icon workflow-spark">✦</span>
-  <span className="workflow-icon workflow-spark-two">✦</span>
-  <span className="workflow-icon workflow-spark-three">✦</span>
-  <span className="workflow-person">👩‍⚕️</span>
-</div>
+          <div className="workflow-art">
+            <span className="workflow-icon workflow-light">💡</span>
+            <span className="workflow-icon workflow-gear-one">⚙️</span>
+            <span className="workflow-icon workflow-gear-two">⚙️</span>
+            <span className="workflow-icon workflow-check">✓</span>
+            <span className="workflow-icon workflow-spark">✦</span>
+            <span className="workflow-icon workflow-spark-two">✦</span>
+            <span className="workflow-icon workflow-spark-three">✦</span>
+            <span className="workflow-person">👩‍⚕️</span>
+          </div>
         </section>
 
         <footer className="patient-footer">
