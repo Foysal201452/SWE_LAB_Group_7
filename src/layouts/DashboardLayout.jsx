@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { rolePermissions } from "../data/permissions";
 
 function DashboardLayout({ children, role }) {
@@ -14,7 +14,7 @@ function DashboardLayout({ children, role }) {
     navigate("/");
   };
 
-  const menuItems = rolePermissions[role]?.sidebar || [];
+  const menuItems = rolePermissions?.[role]?.sidebar || [];
 
   const roleTitles = {
     patient: "Patient Panel",
@@ -36,13 +36,19 @@ function DashboardLayout({ children, role }) {
 
         <div className="dashboard-menu">
           {menuItems.map((item) => (
-            <Link className="dashboard-link" key={item.path} to={item.path}>
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                isActive ? "dashboard-link active-link" : "dashboard-link"
+              }
+            >
               {item.label}
-            </Link>
+            </NavLink>
           ))}
         </div>
 
-        <button className="dashboard-logout" onClick={logout}>
+        <button type="button" className="dashboard-logout" onClick={logout}>
           Logout
         </button>
       </aside>
